@@ -162,7 +162,7 @@ def _looks_like_phrase(line: str) -> bool:
     # Drop conversational scaffolding ("Sure! Here are 3 phrases:")
     if line.rstrip().endswith(":"):
         return False
-    if re.match(r"^(sure|here|okay|ok|certainly|of course|hope|let me)", line, re.I):
+    if re.match(r"^(sure|here|okay|ok|certainly|of course|hope|let me)\b", line, re.I):
         return False
     if re.search(r"(helps?|enjoy|good luck)\s*[!.]?$", line, re.I):
         return False
@@ -214,7 +214,7 @@ def _parse_list(answer: str) -> list:
     # 2. A JSON array or object embedded in prose
     for pattern in (r"\[.*?\]", r"\{.*?\}"):
         for match in re.findall(pattern, text, re.DOTALL):
-            snippet = re.sub(r",\s*([\]}])", r"", match)   # kill trailing commas
+            snippet = re.sub(r",\s*([\]}])", r"\1", match)   # kill trailing commas
             for loader in (json.loads, ast.literal_eval):
                 try:
                     got = from_obj(loader(snippet))
