@@ -1,0 +1,6 @@
+# Local Streamlit secrets (holds OPENAI_API_KEY)
+.streamlit/secrets.toml
+
+# Python cache
+__pycache__/
+*.pyc
